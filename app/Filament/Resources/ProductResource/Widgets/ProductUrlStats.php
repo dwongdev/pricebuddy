@@ -86,7 +86,7 @@ class ProductUrlStats extends BaseWidget implements HasActions, HasForms
                     $backUrl = $url->product?->view_url;
                     $url->updatePrice();
 
-                    Notification::make('deleted_url')
+                    Notification::make('fetch_url')
                         ->title('Prices updated')
                         ->success()->send();
 
@@ -94,7 +94,7 @@ class ProductUrlStats extends BaseWidget implements HasActions, HasForms
                         return redirect($backUrl);
                     }
                 } catch (Exception $e) {
-                    Notification::make('deleted_url_failed')
+                    Notification::make('festch_url_failed')
                         ->title('Couldn\'t fetch the product, refer to logs')
                         ->danger()->send();
                 }

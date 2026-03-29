@@ -31,8 +31,8 @@ class StockStatusTest extends TestCase
     {
         $this->assertSame('success', StockStatus::InStock->getColor());
         $this->assertSame('info', StockStatus::PreOrder->getColor());
-        $this->assertSame('warning', StockStatus::BackOrder->getColor());
-        $this->assertSame('warning', StockStatus::SpecialOrder->getColor());
+        $this->assertSame('info', StockStatus::BackOrder->getColor());
+        $this->assertSame('info', StockStatus::SpecialOrder->getColor());
         $this->assertSame('danger', StockStatus::OutOfStock->getColor());
         $this->assertSame('gray', StockStatus::Discontinued->getColor());
     }

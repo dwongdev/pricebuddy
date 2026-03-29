@@ -95,35 +95,19 @@ class ProductSeeder extends Seeder
             ],
         ],
         [
-            'title' => 'Ubiquiti UniFi Protect Camera G6 180 (Black)',
+            'title' => 'USW-24 Ubiquiti UniFi Switch 24',
             'urls' => [
-                'https://thetechgeeks.com/products/uvc-g6-180-b' => ['prices' => ['731.50'], 'availability' => StockStatus::SpecialOrder],
+                'https://thetechgeeks.com/collections/switches/products/ubiquiti-unifi-24-port-managed-gigabit-switch-24x-gigabit-ethernet-ports-with-2xsfp-touch-display-fanless-gen2' => ['prices' => ['731.50'], 'availability' => StockStatus::OutOfStock],
             ],
-            'image' => 'https://thetechgeeks.com/cdn/shop/files/UVC-G6-180-B_grande.png',
-            'tag' => 'Tech',
-        ],
-        [
-            'title' => 'Ubiquiti UniFi Travel Router',
-            'urls' => [
-                'https://thetechgeeks.com/products/utr' => ['prices' => ['225.50'], 'availability' => StockStatus::SpecialOrder],
-            ],
-            'image' => 'https://thetechgeeks.com/cdn/shop/files/UTR_grande.png',
-            'tag' => 'Tech',
-        ],
-        [
-            'title' => 'Ubiquiti UniFi Edge AI Appliance',
-            'urls' => [
-                'https://thetechgeeks.com/products/ai-key' => ['prices' => ['1815'], 'availability' => StockStatus::BackOrder],
-            ],
-            'image' => 'https://thetechgeeks.com/cdn/shop/files/AI-Key_grande.png',
+            'image' => 'https://thetechgeeks.com/cdn/shop/products/USW-24-002_grande_62102522-1ace-4e0d-a772-298cbf74d63c.webp?v=1714838532&width=600',
             'tag' => 'Tech',
         ],
         [
             'title' => 'Ubiquiti Pro Max 16 Rack Mount Kit',
             'urls' => [
-                'https://thetechgeeks.com/products/uacc-pro-max-16-rm' => ['prices' => ['126.50'], 'availability' => StockStatus::PreOrder],
+                'https://thetechgeeks.com/collections/ubiquiti-unifi-switches/products/uacc-pro-max-16-rm' => ['prices' => ['126.50'], 'availability' => StockStatus::PreOrder],
             ],
-            'image' => 'https://thetechgeeks.com/cdn/shop/files/UACC-Pro-Max-16-RM_grande.png',
+            'image' => 'https://thetechgeeks.com/cdn/shop/files/the-tech-geeks-Ubiquiti-UACC-Pro-Max-16-RM_1.jpg?v=1715852329&width=480',
             'tag' => 'Tech',
         ],
     ];

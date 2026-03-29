@@ -54,25 +54,14 @@
             ])
     }}
     >
-    <div class="flex mb-4 gap-4">
+    <div class="flex mb-1 gap-3 items-end">
 
         <div>
-            @if ($priceCache->hasVisiblePrice())
-                <div class="text-[0.65rem] font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-1">
-                    {{ __('Unit price') }}
-                </div>
-            @endif
             <div
                 class="fi-wi-stats-overview-stat-value {{ $firstCardValueStyle }}"
             >
                 {{ $priceCache->hasVisiblePrice() ? $getValue() : __('Unavailable') }}
             </div>
-            @if ($priceCache->hasVisiblePrice() && $priceCache->getPriceFactor() != 1)
-                <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    {{ __('Retail') }}: {{ $priceCache->getPriceFormatted() }}
-                    <span class="text-gray-400 dark:text-gray-500">({{ (float) $priceCache->getPriceFactor() }} {{ $priceCache->getUnitOfMeasure() ?? __('units') }})</span>
-                </div>
-            @endif
         </div>
 
         <div class="flex items-center gap-x-2 justify-start">
@@ -84,8 +73,12 @@
             @endif
 
             <span
-                class="fi-wi-stats-overview-stat-label text-sm font-medium text-gray-500 dark:text-gray-400"
+                class="fi-wi-stats-overview-stat-label text-sm font-medium text-gray-500 dark:text-gray-400 mr-auto pb-2"
             >
+                 @if ($priceCache->hasVisiblePrice() && $priceCache->hasPriceFactor())
+                    {{ __('per :unit', ['unit' => $priceCache->getUnitOfMeasure()]) }}
+                @endif
+
                 {{ $getLabel() }}
 
                 @if ($descriptionIcon && in_array($descriptionIconPosition, [IconPosition::After, 'after']))
@@ -110,6 +103,12 @@
             </div>
         @endif
     </div>
+
+    @if ($priceCache->hasVisiblePrice() && $priceCache->getPriceFactor() != 1)
+        <div class="text-xs text-gray-500 dark:text-gray-400 mt-1 mb-2">
+            <x-price-factor-price :cache="$priceCache" />
+        </div>
+    @endif
 
     @if ($priceCache->isUnavailable() || ! $priceCache->isLastScrapeSuccessful() || $priceCache->matchesNotification($product))
         <div class="mt-2 pb-4 inline-flex gap-2">

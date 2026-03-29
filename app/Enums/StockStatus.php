@@ -31,8 +31,7 @@ enum StockStatus: string implements HasColor, HasIcon, HasLabel
     {
         return match ($this) {
             self::InStock => 'success',
-            self::PreOrder => 'info',
-            self::BackOrder, self::SpecialOrder => 'warning',
+            self::PreOrder, self::BackOrder, self::SpecialOrder => 'info',
             self::OutOfStock => 'danger',
             self::Discontinued => 'gray',
         };

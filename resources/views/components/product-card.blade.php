@@ -19,8 +19,7 @@
         >
             <a class="flex gap-2" href="{{ $product->view_url }}">
                 <div class="w-20 h-20 min-w-20 m-2 rounded-md overflow-hidden p-1 flex items-center">
-                    <img src="{{ $product->primary_image }}" alt="{{ $product->title }}"
-                         class="rounded-md display-block h-auto block w-20"/>
+                    <x-product-image :product="$product" />
                 </div>
                 <div class="my-1 flex flex-col min-w-0 justify-center" style="width: calc(100% - 5rem)">
                     <h3
@@ -32,38 +31,29 @@
                     </h3>
                     <div>
                         @if ($latestPrice->hasVisiblePrice())
-                            <div class="text-[0.65rem] font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">
-                                {{ __('Unit price') }}
-                            </div>
-                            <span class="text-2xl font-semibold">
+                            <span class="text-3xl font-semibold leading-none">
                                 {{ $latestPrice->getUnitPriceFormatted() }}
                             </span>
-                            @if ($latestPrice->getPriceFactor() != 1)
-                                <span class="text-xs text-gray-400 dark:text-gray-500">
-                                    {{ __('Retail') }}: {{ $latestPrice->getPriceFormatted() }} ({{ (float) $latestPrice->getPriceFactor() }} {{ $latestPrice->getUnitOfMeasure() ?? __('units') }})
-                                </span>
-                            @endif
+
                         @else
                             <span class="text-lg font-semibold text-gray-500 dark:text-gray-400">
                                 {{ __('Unavailable') }}
                             </span>
                         @endif
                         <span class="text-xs text-gray-500 dark:text-gray-400 font-bold display-block">
+                            @if ($latestPrice->hasPriceFactor())
+                                {{ __('per :unit', ['unit' => $latestPrice->getUnitOfMeasure()]) }}
+                            @endif
                             {{ '@'.$latestPrice->getStoreName() }}
                         </span>
-                        @if ($latestPrice->isUnavailable())
-                            <div class="block mt-1">
-                                @include('components.icon-badge', [
-                                    'hoverText' => __('This item is currently :status', ['status' => strtolower($latestPrice->getStockStatusLabel())]),
-                                    'label' => __($latestPrice->getStockStatusLabel()),
-                                    'color' => $latestPrice->getStockStatusColor(),
-                                    'icon' => $latestPrice->getStockStatusIcon(),
-                                ])
-                            </div>
-                        @endif
-                        <div class="block mb-2">
-                            @include('components.product-badges', ['product' => $product])
-                        </div>
+                    </div>
+                    @if ($latestPrice->hasPriceFactor())
+                        <span class="text-xs text-gray-500 dark:text-gray-400 block mb-2 mt-1">
+                            <x-price-factor-price :cache="$latestPrice" />
+                        </span>
+                    @endif
+                    <div class="pb-card-badges block mb-2">
+                        @include('components.product-badges', ['product' => $product])
                     </div>
                 </div>
             </a>

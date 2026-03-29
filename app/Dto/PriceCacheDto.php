@@ -9,9 +9,12 @@ use App\Models\Product;
 use App\Services\Helpers\CurrencyHelper;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class PriceCacheDto
 {
+    public const string DEFAULT_UNIT_OF_MEASURE = 'units';
+
     private ?int $storeId;
 
     private ?string $storeName;
@@ -53,7 +56,7 @@ class PriceCacheDto
         ?string $currency = null,
         ?float $unitPrice = null,
         float $priceFactor = 1,
-        ?string $unitOfMeasure = null,
+        ?string $unitOfMeasure = self::DEFAULT_UNIT_OF_MEASURE,
         StockStatus|string|null $availability = null,
     ) {
         $this->storeId = $storeId;
@@ -135,14 +138,24 @@ class PriceCacheDto
         return CurrencyHelper::toString($this->getUnitPrice(), locale: $this->locale, iso: $this->currency);
     }
 
-    public function getUnitOfMeasure(): ?string
+    public function getUnitOfMeasure(): string
     {
-        return $this->unitOfMeasure;
+        return Str::singular($this->getUnitOfMeasurePlural());
+    }
+
+    public function getUnitOfMeasurePlural(): string
+    {
+        return $this->unitOfMeasure ?? self::DEFAULT_UNIT_OF_MEASURE;
     }
 
     public function getPriceFactor(): float
     {
         return $this->priceFactor;
+    }
+
+    public function hasPriceFactor(): bool
+    {
+        return $this->getPriceFactor() > 1;
     }
 
     public function hasPriceHistory(): bool

@@ -204,7 +204,10 @@ class ProductResource extends Resource
                         Tables\Columns\ImageColumn::make('primary_image')
                             ->width(60)
                             ->height(60)
-                            ->extraImgAttributes(['class' => 'rounded-md p-1 bg-white mr-2'])
+                            ->extraImgAttributes([
+                                'class' => 'rounded-md p-1 bg-white mr-2',
+                                'onerror' => "this.onerror=null;this.src='/images/placeholder.png';",
+                            ])
                             ->label('Image')
                             ->url(fn ($record): string => $record->action_urls['view'])
                             ->grow(false),

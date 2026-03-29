@@ -3,6 +3,7 @@
     use App\Services\SearchService;
     $searchEnabled = SearchService::canSearch();
     $activeTab = ($searchEnabled && request()->get('searchQuery')) ? 'search' : 'overview';
+    //dd($record->getPriceCache());
 @endphp
 <x-filament-panels::page class="fi-dashboard-page product-view" xmlns:x-filament="http://www.w3.org/1999/html">
 
@@ -43,11 +44,7 @@
                     <div class="md:w-1/3 flex flex-col">
                         <div class="bg-white rounded-lg p-4 mb-4 h-auto w-full flex justify-center shadow-sm ring-1 ring-gray-950/5 dark:ring-white/10">
                             <div class="">
-                                <img
-                                    src="{{ $record->primary_image }}"
-                                    alt="{{ $record->title }}"
-                                    class="rounded-lg h-auto w-full block max-h-72 md:max-h-96"
-                                />
+                                <x-product-image :product="$record" class="rounded-lg h-auto w-full block max-h-72 md:max-h-96" />
                             </div>
                         </div>
                     </div>

@@ -13,26 +13,27 @@ class PriceCacheDtoTest extends TestCase
     {
         $dto = new PriceCacheDto(
             price: 10.00,
+            locale: 'en',
+            currency: 'USD',
             unitPrice: 5.00,
             priceFactor: 2,
             unitOfMeasure: 'tablets',
-            locale: 'en',
-            currency: 'USD',
         );
 
-        $this->assertSame('tablets', $dto->getUnitOfMeasure());
+        $this->assertSame('tablets', $dto->getUnitOfMeasurePlural());
+        $this->assertSame('tablet', $dto->getUnitOfMeasure());
     }
 
-    public function test_unit_of_measure_null_by_default()
+    public function test_unit_of_measure_unit_by_default()
     {
         $dto = new PriceCacheDto(
             price: 10.00,
-            unitPrice: 10.00,
             locale: 'en',
             currency: 'USD',
+            unitPrice: 10.00,
         );
 
-        $this->assertNull($dto->getUnitOfMeasure());
+        $this->assertSame(PriceCacheDto::DEFAULT_UNIT_OF_MEASURE, $dto->getUnitOfMeasurePlural());
     }
 
     public function test_from_array_includes_unit_of_measure()
@@ -40,28 +41,29 @@ class PriceCacheDtoTest extends TestCase
         $dto = PriceCacheDto::fromArray([
             'price' => 10.00,
             'history' => [],
-            'unit_of_measure' => 'item',
+            'unit_of_measure' => 'items',
             'locale' => 'en',
             'currency' => 'USD',
         ]);
 
         $this->assertSame('item', $dto->getUnitOfMeasure());
+        $this->assertSame('items', $dto->getUnitOfMeasurePlural());
     }
 
     public function test_to_array_includes_unit_of_measure()
     {
         $dto = new PriceCacheDto(
             price: 10.00,
-            unitOfMeasure: 'grams',
             locale: 'en',
             currency: 'USD',
+            unitOfMeasure: 'grams',
         );
 
         $array = $dto->toArray();
-        $this->assertSame('grams', $array['unit_of_measure']);
+        $this->assertSame('gram', $array['unit_of_measure']);
     }
 
-    public function test_from_array_without_unit_of_measure_defaults_to_null()
+    public function test_from_array_without_unit_of_measure_defaults_to_unit()
     {
         $dto = PriceCacheDto::fromArray([
             'price' => 10.00,
@@ -70,7 +72,7 @@ class PriceCacheDtoTest extends TestCase
             'currency' => 'USD',
         ]);
 
-        $this->assertNull($dto->getUnitOfMeasure());
+        $this->assertSame('unit', $dto->getUnitOfMeasure());
     }
 
     public function test_availability_defaults_to_in_stock()
