@@ -34,8 +34,12 @@ class SchemaOrgService
             'image' => is_string(data_get($schema, 'image'))
                 ? data_get($schema, 'image')
                 : (is_array(data_get($schema, 'image')) ? data_get($schema, 'image.0') : null),
-            // Availability.
-            'availability' => data_get($schema, 'offers.availability', data_get($schema, 'offers.0.availability')),
+            // Availability should be a string, sometimes array of strings.
+            'availability' => is_string(data_get($schema, 'offers.availability', data_get($schema, 'offers.0.availability')))
+                ? data_get($schema, 'offers.availability', data_get($schema, 'offers.0.availability'))
+                : (is_string(data_get($schema, 'offers.availability.0', data_get($schema, 'offers.0.availability.0')))
+                    ? data_get($schema, 'offers.availability.0', data_get($schema, 'offers.0.availability.0'))
+                    : null),
             default => null
         };
     }

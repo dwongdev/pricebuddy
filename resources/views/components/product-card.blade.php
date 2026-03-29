@@ -30,24 +30,30 @@
                         {{ $product->title }}
                     </h3>
                     <div>
-                        @if ($latestPrice->hasVisiblePrice())
-                            <span class="text-3xl font-semibold leading-none">
-                                {{ $latestPrice->getUnitPriceFormatted() }}
-                            </span>
+                        @if ($latestPrice)
+                            @if ($latestPrice->hasVisiblePrice())
+                                <span class="text-3xl font-semibold leading-none">
+                                    {{ $latestPrice->getUnitPriceFormatted() }}
+                                </span>
 
+                            @else
+                                <span class="text-lg font-semibold text-gray-500 dark:text-gray-400">
+                                    {{ __('Unavailable') }}
+                                </span>
+                            @endif
+                            <span class="text-xs text-gray-500 dark:text-gray-400 font-bold display-block">
+                                @if ($latestPrice->hasPriceFactor())
+                                    {{ __('per :unit', ['unit' => $latestPrice->getUnitOfMeasure()]) }}
+                                @endif
+                                {{ '@'.$latestPrice->getStoreName() }}
+                            </span>
                         @else
                             <span class="text-lg font-semibold text-gray-500 dark:text-gray-400">
                                 {{ __('Unavailable') }}
                             </span>
                         @endif
-                        <span class="text-xs text-gray-500 dark:text-gray-400 font-bold display-block">
-                            @if ($latestPrice->hasPriceFactor())
-                                {{ __('per :unit', ['unit' => $latestPrice->getUnitOfMeasure()]) }}
-                            @endif
-                            {{ '@'.$latestPrice->getStoreName() }}
-                        </span>
                     </div>
-                    @if ($latestPrice->hasPriceFactor())
+                    @if ($latestPrice?->hasPriceFactor())
                         <span class="text-xs text-gray-500 dark:text-gray-400 block mb-2 mt-1">
                             <x-price-factor-price :cache="$latestPrice" />
                         </span>

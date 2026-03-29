@@ -2,9 +2,9 @@
     $product = $product ?? $getRecord();
     $latestPrice = $product->getPriceCache()->first();
 @endphp
-@if (! $product->is_last_scrape_successful || $product->is_notified_price || $latestPrice->isUnavailable())
+@if (! $product->is_last_scrape_successful || $product->is_notified_price || $latestPrice?->isUnavailable())
     <div {{ $attributes->merge(['class' => 'inline-flex gap-2 mt-1 flex-wrap']) }}>
-        @if ($latestPrice->isUnavailable())
+        @if ($latestPrice?->isUnavailable())
             <div class="mt-1 whitespace-nowrap">
                 @include('components.icon-badge', [
                     'hoverText' => __('This item is currently :status', ['status' => strtolower($latestPrice->getStockStatusLabel())]),

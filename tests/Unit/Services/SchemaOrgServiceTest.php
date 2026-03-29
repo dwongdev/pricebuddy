@@ -82,4 +82,55 @@ class SchemaOrgServiceTest extends TestCase
         ];
         $this->assertNull(SchemaOrgService::parseSchemaOrg(collect($jsonLd), 'title'));
     }
+
+    public function test_parse_schema_org_handles_availability_formats()
+    {
+        // Simple string availability
+        $jsonLd = [
+            [
+                '@type' => 'Product',
+                'offers' => [
+                    'availability' => 'https://schema.org/InStock',
+                ],
+            ],
+        ];
+        $this->assertEquals('https://schema.org/InStock', SchemaOrgService::parseSchemaOrg(collect($jsonLd), 'availability'));
+
+        // Array availability
+        $jsonLd = [
+            [
+                '@type' => 'Product',
+                'offers' => [
+                    '0' => [
+                        'availability' => 'https://schema.org/OutOfStock',
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals('https://schema.org/OutOfStock', SchemaOrgService::parseSchemaOrg(collect($jsonLd), 'availability'));
+
+        // Array of strings availability
+        $jsonLd = [
+            [
+                '@type' => 'Product',
+                'offers' => [
+                    'availability' => ['https://schema.org/InStock', 'something else'],
+                ],
+            ],
+        ];
+        $this->assertEquals('https://schema.org/InStock', SchemaOrgService::parseSchemaOrg(collect($jsonLd), 'availability'));
+
+        // Non-string availability (e.g., an object/array that is not normalized)
+        $jsonLd = [
+            [
+                '@type' => 'Product',
+                'offers' => [
+                    'availability' => ['type' => 'ItemAvailability', 'value' => 'InStock'],
+                ],
+            ],
+        ];
+        // Currently it would return the array if we just use data_get directly.
+        // We want it to return null if it's not a string or first element is not a string.
+        $this->assertNull(SchemaOrgService::parseSchemaOrg(collect($jsonLd), 'availability'));
+    }
 }

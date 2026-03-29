@@ -104,7 +104,7 @@
         @endif
     </div>
 
-    @if ($priceCache->hasVisiblePrice() && $priceCache->getPriceFactor() != 1)
+    @if ($priceCache->hasVisiblePrice() && $priceCache->hasPriceFactor())
         <div class="text-xs text-gray-500 dark:text-gray-400 mt-1 mb-2">
             <x-price-factor-price :cache="$priceCache" />
         </div>
